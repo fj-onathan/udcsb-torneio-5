@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5.º Torneio Interassociações · UDCSB</title>
+<meta name="theme-color" content="#08132b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Torneio">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h1>5.º Torneio Interassociações</h1>
+<div class="sub">UDCSB · 25 e 26 de julho</div>
+
+<div class="tabs">
+  <button data-view="result" class="on">Resultado</button>
+  <button data-view="table">Classificação</button>
+  <button data-view="next">Jogos</button>
+  <button data-view="champ">Campeão</button>
+  <button data-view="award">Prémios</button>
+  <button data-view="carousel">Carrossel</button>
+</div>
+
+<!-- resultado de um jogo -->
+<div id="panel-result">
+  <div class="label">Dia</div>
+  <div class="tabs" id="days">
+    <button data-day="sat" class="on">Sábado · grupos</button>
+    <button data-day="sun">Domingo · eliminatórias</button>
+  </div>
+
+  <div class="label">Jogo</div>
+  <div class="matches" id="matches"></div>
+
+  <div class="label">Resultado</div>
+  <div class="score">
+    <div class="col">
+      <div class="stepper">
+        <button data-side="0" data-delta="-1">−</button>
+        <div class="val" id="v0">0</div>
+        <button data-side="0" data-delta="1">+</button>
+      </div>
+      <div class="teamname" id="n0"></div>
+    </div>
+    <div class="vs">X</div>
+    <div class="col">
+      <div class="stepper">
+        <button data-side="1" data-delta="-1">−</button>
+        <div class="val" id="v1">0</div>
+        <button data-side="1" data-delta="1">+</button>
+      </div>
+      <div class="teamname" id="n1"></div>
+    </div>
+  </div>
+
+  <div id="pens" class="hide">
+    <div class="label">Empate — quem passou nos penáltis?</div>
+    <div class="row" id="pensBtns"></div>
+  </div>
+
+  <div class="row">
+    <button class="btn ghost" id="clear">Ainda não jogado</button>
+  </div>
+</div>
+
+<!-- classificação -->
+<div id="panel-table" class="hide">
+  <div class="label">Grupo A</div>
+  <div id="tblA"></div>
+  <div class="label">Grupo B</div>
+  <div id="tblB"></div>
+  <div class="hint">Calculado a partir dos resultados introduzidos no separador
+    <b>Resultado</b>. Critérios: pontos, diferença de golos, golos marcados, confronto direto.</div>
+  <div id="tblWarn"></div>
+</div>
+
+<!-- lista de jogos -->
+<div id="panel-next" class="hide">
+  <div class="tabs" id="fixDays">
+    <button data-fix="sat" class="on">Sábado · grupos</button>
+    <button data-fix="sun">Domingo · eliminatórias</button>
+  </div>
+  <div class="hint" id="fixHint"></div>
+  <div id="fixList"></div>
+</div>
+
+<!-- campeão -->
+<div id="panel-champ" class="hide">
+  <div class="hint">Preenche-se a partir da final. O 3.º lugar vem do jogo das 18h.</div>
+  <div id="champList"></div>
+</div>
+
+<!-- prémios -->
+<div id="panel-award" class="hide">
+  <div class="tabs" id="awardTabs">
+    <button data-aw="scorer" class="on">Melhor marcador</button>
+    <button data-aw="defense">Melhor defesa</button>
+    <button data-aw="pinga">Taça da Pinga</button>
+  </div>
+  <div id="awardForm"></div>
+</div>
+
+<!-- carrossel -->
+<div id="panel-carousel" class="hide">
+  <div class="hint">Post final em carrossel, 1080×1350. Usa os dados dos outros separadores.</div>
+  <div class="tabs" id="slideTabs"></div>
+  <div class="row">
+    <button class="btn ghost" id="dlAll">Descarregar os 6 slides</button>
+  </div>
+</div>
+
+<div class="row">
+  <button class="btn primary" id="dl">Descarregar PNG</button>
+  <button class="btn ghost" id="wipe">Limpar tudo</button>
+</div>
+<div class="hint" id="saveState"></div>
+
+<canvas id="cv" width="1080" height="1920"></canvas>
+
+<div class="hint">
+  No iPhone o ficheiro abre numa aba nova: carrega sem largar na imagem e escolhe
+  <b>Adicionar às Fotos</b>. No Android vai direto para as transferências.
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/logos.data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/draw/text.js"></script>
+<script src="js/draw/shapes.js"></script>
+<script src="js/draw/background.js"></script>
+<script src="js/tournament.js"></script>
+<script src="js/cards/result.js"></script>
+<script src="js/cards/tables.js"></script>
+<script src="js/cards/awards.js"></script>
+<script src="js/cards/carousel.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+  /* O service worker só existe em http(s); a abrir o ficheiro por file:// é ignorado. */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () { /* sem offline, segue */ });
+    });
+  }
+</script>
+</body>
+</html>

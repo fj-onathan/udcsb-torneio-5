@@ -1,0 +1,17 @@
+{
+  "name": "torneio-udcsb",
+  "version": "1.0.0",
+  "description": "Gerador de stories e posts para o Torneio de Futebol 7 Interassociações da UDCSB",
+  "private": true,
+  "scripts": {
+    "build": "python3 tools/build.py",
+    "logos": "python3 tools/prepare_logos.py",
+    "icons": "python3 tools/make_icons.py",
+    "test": "node tests/render.test.js",
+    "serve": "python3 -m http.server 8080 --directory src"
+  },
+  "devDependencies": {
+    "canvas": "^2.11.2"
+  },
+  "license": "MIT"
+}
