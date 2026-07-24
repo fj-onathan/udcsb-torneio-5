@@ -14,7 +14,7 @@
     sunHeader: 'ELIMINATÓRIAS · DOMINGO 26 JULHO',
     org: ['5.º TORNEIO', 'INTERASSOCIAÇÕES'],
     handle: '@UDCSBERNARDINO',
-    bar: ['BAR ABERTO', 'IMPERIAL + BIFANAS'],
+    bar: ['SERVIÇO DE BAR', 'IMPERIAL + BIFANAS'],
   };
 
   App.TEAMS = {
